@@ -51,11 +51,11 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Teal;
-            this.label2.Location = new System.Drawing.Point(502, 65);
+            this.label2.Location = new System.Drawing.Point(519, 65);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(149, 28);
+            this.label2.Size = new System.Drawing.Size(132, 28);
             this.label2.TabIndex = 39;
-            this.label2.Text = "v1.2.2 FULL";
+            this.label2.Text = "v1.3 BETA";
             // 
             // label3
             // 

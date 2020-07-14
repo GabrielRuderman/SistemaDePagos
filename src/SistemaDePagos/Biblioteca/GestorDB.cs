@@ -123,10 +123,10 @@ namespace SistemaDePagos.Biblioteca
             }
         }
 
-        public int ObtenerTotalRegistros(string filtro)
+        public int ObtenerTotalRegistros(string tabla, string filtro)
         {
             this.Conectar();
-            SqlDataReader lector = this.Consulta("SELECT COUNT(*) AS total_registros FROM SIDOM.Pagos" + filtro);
+            SqlDataReader lector = this.Consulta("SELECT COUNT(*) AS total_registros FROM SIDOM." + tabla + filtro);
             lector.Read();
             return Convert.ToInt32(lector["total_registros"].ToString());
         }

@@ -38,12 +38,12 @@ namespace SistemaDePagos.Biblioteca
             foreach (string item in lista) lsb.Items.Add(item);
         }
 
-        public void LlenarDataGridGeneralPaginado(DataGridView dgv, Label lblTotal, string query, string filtro, int pagina_actual = 1)
+        public void LlenarDataGridPaginado(bool real, DataGridView dgv, Label lblTotal, string query, string filtro, int pagina_actual = 1)
         {
             int offset = (pagina_actual - 1) * filas_mostradas + 1;
             int fin_pagina = pagina_actual * filas_mostradas;
             string paginado = " WHERE seq BETWEEN " + offset + " AND " + fin_pagina;
-            this.LlenarDataGridGeneral(dgv, lblTotal, query + paginado, filtro);
+            this.LlenarDataGrid(real, dgv, lblTotal, query + paginado, filtro);
 
             /*
             dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
@@ -57,45 +57,68 @@ namespace SistemaDePagos.Biblioteca
             */
         }
 
-        public void LlenarDataGridGeneral(DataGridView dgv, Label lblTotal, string query, string filtro)
+        public void LlenarDataGrid(bool real, DataGridView dgv, Label lblTotal, string query, string filtro)
         {
             gestor.Conectar();
             SqlDataReader lector = gestor.Consulta(query);
-            while (lector.Read())
-            {
-                string[] row = new string[]
+
+            if (real)
+                while (lector.Read())
                 {
-                    lector["id_pago"].ToString(),
-                    Convert.ToDateTime(lector["periodo_prestacion_real"].ToString()).ToShortDateString().Substring(3),
-                    Convert.ToDateTime(lector["fecha_pago_real"].ToString()).ToShortDateString(),
-                    lector["persona"].ToString(),
-                    validadorDeDatos.ObtenerFormatoMoneda(lector["monto"]),
-                    validadorDeDatos.ObtenerFormatoMoneda(lector["retenciones_ganancias"]),
-                    validadorDeDatos.ObtenerFormatoMoneda(lector["retenciones_ingresos_brutos_caba"]),
-                    validadorDeDatos.ObtenerFormatoMoneda(lector["retenciones_ingresos_brutos_provincia"]),
-                    lector["rubro"].ToString(),
-                    lector["sucursal"].ToString(),
-                    lector["numero_de_factura"].ToString(),
-                    lector["medio_de_pago"].ToString(),
-                    lector["banco"].ToString(),
-                    lector["numero_de_cheque"].ToString(),                    
-                    lector["observaciones"].ToString()
-                };
-                if (!Convert.ToBoolean(lector["fecha_pago_real_checked"])) row[2] = ""; // Fecha de pago real
-                if (row[13] == "0") row[13] = ""; // Número de cheque
-                dgv.Rows.Add(row);
-                /* PARA CALCULAR TOTAL CON RETENCIONES:
-                retenciones += validadorDeDatos.ObtenerFormatoDecimal(lector["retenciones_ganancias"].ToString())
-                    + validadorDeDatos.ObtenerFormatoDecimal(lector["retenciones_ingresos_brutos_caba"].ToString())
-                    + validadorDeDatos.ObtenerFormatoDecimal(lector["retenciones_ingresos_brutos_provincia"].ToString());
-                */
-            }
+                    string[] row = new string[]
+                    {
+                        lector["id_pago"].ToString(),
+                        Convert.ToDateTime(lector["periodo_prestacion_real"].ToString()).ToShortDateString().Substring(3),
+                        Convert.ToDateTime(lector["fecha_pago_real"].ToString()).ToShortDateString(),
+                        lector["persona"].ToString(),
+                        validadorDeDatos.ObtenerFormatoMoneda(lector["monto"]),
+                        validadorDeDatos.ObtenerFormatoMoneda(lector["retenciones_ganancias"]),
+                        validadorDeDatos.ObtenerFormatoMoneda(lector["retenciones_ingresos_brutos_caba"]),
+                        validadorDeDatos.ObtenerFormatoMoneda(lector["retenciones_ingresos_brutos_provincia"]),
+                        lector["rubro"].ToString(),
+                        lector["sucursal"].ToString(),
+                        lector["numero_de_factura"].ToString(),
+                        lector["medio_de_pago"].ToString(),
+                        lector["banco"].ToString(),
+                        lector["numero_de_cheque"].ToString(),                    
+                        lector["observaciones"].ToString()
+                    };
+                    if (!Convert.ToBoolean(lector["fecha_pago_real_checked"])) row[2] = ""; // Fecha de pago real
+                    if (row[13] == "0") row[13] = ""; // Número de cheque
+                    dgv.Rows.Add(row);
+                    /* PARA CALCULAR TOTAL CON RETENCIONES:
+                    retenciones += validadorDeDatos.ObtenerFormatoDecimal(lector["retenciones_ganancias"].ToString())
+                        + validadorDeDatos.ObtenerFormatoDecimal(lector["retenciones_ingresos_brutos_caba"].ToString())
+                        + validadorDeDatos.ObtenerFormatoDecimal(lector["retenciones_ingresos_brutos_provincia"].ToString());
+                    */
+                }
+            else
+                while (lector.Read())
+                {
+                    string[] row = new string[]
+                    {
+                        lector["id_proyectado"].ToString(),
+                        Convert.ToDateTime(lector["periodo_prestacion_real"].ToString()).ToShortDateString().Substring(3),
+                        lector["persona"].ToString(),
+                        validadorDeDatos.ObtenerFormatoMoneda(lector["monto"]),
+                        lector["rubro"].ToString(),
+                        lector["sucursal"].ToString(),
+                        lector["prestacion"].ToString(),
+                    };
+                    dgv.Rows.Add(row);
+                }
+
             gestor.Desconectar();
             dgv.AutoResizeColumns();
 
             decimal total = 0;
             gestor.Conectar();
-            lector = gestor.Consulta("SELECT ISNULL(SUM(monto), 0) AS total FROM SIDOM.pagos " + filtro);
+
+            if (real)
+                lector = gestor.Consulta("SELECT ISNULL(SUM(monto), 0) AS total FROM SIDOM.pagos " + filtro);
+            else
+                lector = gestor.Consulta("SELECT ISNULL(SUM(monto), 0) AS total FROM SIDOM.proyectado " + filtro);
+
             if (lector.Read())
                 total = Convert.ToDecimal(lector["total"]);
             lblTotal.Text = "$" + validadorDeDatos.ObtenerFormatoMoneda(total);

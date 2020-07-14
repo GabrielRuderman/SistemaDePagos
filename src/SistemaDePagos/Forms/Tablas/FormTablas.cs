@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Windows.Forms;
+using SistemaDePagos.Forms.Proyectado;
 using SistemaDePagos.Biblioteca;
 using SistemaDePagos.Dominio;
 
@@ -15,17 +16,18 @@ namespace SistemaDePagos
         private static BufferDB buffer = BufferDB.GetInstance();
         private static RellenadorDeDatos rellenadorDeDatos = RellenadorDeDatos.GetInstance();
         private static RellenadorDeFechas rellenadorDeFechas = RellenadorDeFechas.GetInstance();
-        List<Tuple<string, string, bool>> nombre_columnas = new List<Tuple<string, string, bool>>();
-        Tuple<string, string, bool> tupla_actual = null;
-        string query_general, query_actual, filtro_actual;
-        int pagina_actual, total_registros, total_paginas, registros_por_pagina = 100;
+        private static FuncionesPolimorficas funcionesPolimorficas = FuncionesPolimorficas.GetInstance();
+        private List<Tuple<string, string, bool>> nombre_columnas = new List<Tuple<string, string, bool>>();
+        private Tuple<string, string, bool> tupla_actual = null;
+        private string query_general, query_actual, filtro_actual;
+        private int pagina_actual, total_registros, total_paginas, registros_por_pagina = 100;
         private int cant_periodos_sucursal = 4, cant_periodos_rubro = 4;
-        const string todas_suc_en_rubros = "TODAS LAS SUCURSALES";
-        string criterio_totxrub = "", criterio_totxsuc = "", criterio_rubxsuc = "";
-        string[] criterios_cmb = new string[2] { "SEGÚN FECHA DE PAGO REAL", "SEGÚN PERÍODO PRESTACIONAL" };
-        string[] criterios_query = new string[2] { "fecha_pago_real", "periodo_prestacion_real" };
-        enum IndiceCriterio : int { FechaDePagoReal = 0, PeriodoPrestacional = 1}
-        bool selectionbar_pxs_activa = false, selectionbar_pxr_activa = false, selectionbar_rxs_activa = false;
+        private const string todas_suc_en_rubros = "TODAS LAS SUCURSALES";
+        private string criterio_totxrub = "", criterio_totxsuc = "", criterio_rubxsuc = "";
+        private string[] criterios_cmb = new string[2] { "SEGÚN FECHA DE PAGO REAL", "SEGÚN PERÍODO PRESTACIONAL" };
+        private string[] criterios_query = new string[2] { "fecha_pago_real", "periodo_prestacion_real" };
+        private enum IndiceCriterio : int { FechaDePagoReal = 0, PeriodoPrestacional = 1}
+        private bool selectionbar_pxs_activa = false, selectionbar_pxr_activa = false, selectionbar_rxs_activa = false;
 
         public FormTablas()
         {
@@ -159,10 +161,10 @@ namespace SistemaDePagos
             this.filtro_actual = "";
             this.pagina_actual = 1;
             lblPaginaActual.Text = this.pagina_actual.ToString();
-            this.total_registros = gestor.ObtenerTotalRegistros("");
+            this.total_registros = gestor.ObtenerTotalRegistros("pagos", "");
             rellenadorDeDatos.FilasMostradas(this.registros_por_pagina);
             this.total_paginas = Math.Max(1, (int) Math.Ceiling((decimal) this.total_registros / (decimal) this.registros_por_pagina));
-            rellenadorDeDatos.LlenarDataGridGeneralPaginado(dgvPagos, lblTotalGeneral, query_general, "", this.pagina_actual);
+            rellenadorDeDatos.LlenarDataGridPaginado(true, dgvPagos, lblTotalGeneral, query_general, "", this.pagina_actual);
             this.ActualizarBotonesDePaginacion();
 
             /*
@@ -184,7 +186,7 @@ namespace SistemaDePagos
         private void ActualizarTablaGeneral(int pagina = 1)
         {
             dgvPagos.Rows.Clear();
-            rellenadorDeDatos.LlenarDataGridGeneralPaginado(dgvPagos, lblTotalGeneral, this.query_actual, this.filtro_actual, pagina);
+            rellenadorDeDatos.LlenarDataGridPaginado(true, dgvPagos, lblTotalGeneral, this.query_actual, this.filtro_actual, pagina);
         }
 
         private void LlenarVectorNombresColumnas()
@@ -226,7 +228,7 @@ namespace SistemaDePagos
 
             this.pagina_actual = 1;
             lblPaginaActual.Text = this.pagina_actual.ToString();
-            this.total_registros = gestor.ObtenerTotalRegistros(this.filtro_actual);
+            this.total_registros = gestor.ObtenerTotalRegistros("pagos", this.filtro_actual);
             this.total_paginas = (int) Math.Ceiling((decimal) this.total_registros / (decimal) this.registros_por_pagina);
             this.ActualizarTablaGeneral();
             this.ActualizarBotonesDePaginacion();
@@ -307,7 +309,7 @@ namespace SistemaDePagos
             {
                 DataGridViewClonable TablaGeneralClonada = (DataGridViewClonable) this.TablaGeneralOriginal.Clone();
                 TablaGeneralClonada.Dgv().Rows.Clear();
-                rellenadorDeDatos.LlenarDataGridGeneral(TablaGeneralClonada.Dgv(), new Label(), this.query_actual, "");
+                rellenadorDeDatos.LlenarDataGrid(true, TablaGeneralClonada.Dgv(), new Label(), this.query_actual, "");
                 new Exportador(TablaGeneralClonada.Dgv()).Exportar();
             }
             else
@@ -320,6 +322,7 @@ namespace SistemaDePagos
             if (result == DialogResult.Yes)
             {
                 new FormLogin().Show();
+                buffer.FormProyectado().Hide();
                 this.Hide();
             }
         }
@@ -333,7 +336,7 @@ namespace SistemaDePagos
             this.filtro_actual = "";
             this.pagina_actual = 1;
             lblPaginaActual.Text = this.pagina_actual.ToString();
-            this.total_registros = gestor.ObtenerTotalRegistros("");
+            this.total_registros = gestor.ObtenerTotalRegistros("pagos", "");
             this.total_paginas = (int) Math.Ceiling((decimal) this.total_registros / (decimal) this.registros_por_pagina);
             this.ActualizarTablaGeneral();
             this.ActualizarBotonesDePaginacion();
@@ -407,7 +410,7 @@ namespace SistemaDePagos
             this.query_actual = this.query_general.Substring(0, this.query_general.Length - 2) + this.filtro_actual + ")t";
             this.pagina_actual = 1;
             lblPaginaActual.Text = this.pagina_actual.ToString();
-            this.total_registros = gestor.ObtenerTotalRegistros(this.filtro_actual);
+            this.total_registros = gestor.ObtenerTotalRegistros("pagos", this.filtro_actual);
             this.total_paginas = (int) Math.Ceiling((decimal) this.total_registros / (decimal) this.registros_por_pagina);
             this.ActualizarTablaGeneral();
             this.ActualizarBotonesDePaginacion();
@@ -487,6 +490,13 @@ namespace SistemaDePagos
                 btnSiguiente.Enabled = false;
                 btnUltima.Enabled = false;
             }
+        }
+
+        private void btnProyectado_Click(object sender, EventArgs e)
+        {
+            FormProyectado formProyectado = (FormProyectado) buffer.FormProyectado();
+            formProyectado.Show();
+            this.Hide();
         }
 
         /*
@@ -983,10 +993,9 @@ namespace SistemaDePagos
                 e.Cancel = true;
         }*/
 
-        private void FormTablas_FormClosed(object sender, FormClosedEventArgs e)
+        private void FormTablas_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Application.ExitThread();
-            Application.Exit();
+            funcionesPolimorficas.CerrarApp(e);
         }
     }
 }

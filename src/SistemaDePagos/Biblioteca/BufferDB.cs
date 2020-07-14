@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Windows.Forms;
+using SistemaDePagos.Forms.Proyectado;
 
 namespace SistemaDePagos.Biblioteca
 {
@@ -9,7 +10,7 @@ namespace SistemaDePagos.Biblioteca
         private static BufferDB instancia;
         private static GestorDB gestor = GestorDB.GetInstance();
         private int permisos;
-        private Form formPrincipal;
+        private Form formPrincipal, formProyectado = null;
         private HashSet<string> sucursales = new HashSet<string>();
         private HashSet<string> rubros = new HashSet<string>();
         private HashSet<string> mediosDePago = new HashSet<string>();
@@ -65,6 +66,17 @@ namespace SistemaDePagos.Biblioteca
         public void FormPrincipal(Form formPrincipal)
         {
             this.formPrincipal = formPrincipal;
+        }
+
+        public Form FormProyectado()
+        {
+            if (this.formProyectado == null) this.formProyectado = new FormProyectado();
+            return this.formProyectado;
+        }
+
+        public void FormProyectado(Form formProyectado)
+        {
+            this.formProyectado = formProyectado;
         }
 
         private void Llenar()

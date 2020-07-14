@@ -75,12 +75,14 @@
     <ManifestKeyFile>SistemaDePagos_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>SistemaDePagos_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -94,6 +96,7 @@
   <ItemGroup>
     <Compile Include="Biblioteca\BufferDB.cs" />
     <Compile Include="Biblioteca\Exportador.cs" />
+    <Compile Include="Biblioteca\FuncionesPolimorficas.cs" />
     <Compile Include="Biblioteca\GestorDB.cs" />
     <Compile Include="Biblioteca\MatrizEstadistica.cs" />
     <Compile Include="Biblioteca\RellenadorDeDatos.cs" />
@@ -106,6 +109,12 @@
     </Compile>
     <Compile Include="Forms\Listados\FormABMListados.Designer.cs">
       <DependentUpon>FormABMListados.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Proyectado\FormProyectado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Proyectado\FormProyectado.Designer.cs">
+      <DependentUpon>FormProyectado.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Usuarios\FormABMUsuarios.cs">
       <SubType>Form</SubType>
@@ -166,6 +175,9 @@
     <EmbeddedResource Include="Forms\Listados\FormABMListados.resx">
       <DependentUpon>FormABMListados.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Proyectado\FormProyectado.resx">
+      <DependentUpon>FormProyectado.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Usuarios\FormABMUsuarios.resx">
       <DependentUpon>FormABMUsuarios.cs</DependentUpon>
     </EmbeddedResource>
@@ -213,7 +225,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="SistemaDePagos_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

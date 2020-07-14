@@ -46,6 +46,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormTablas));
             this.tbcPagos = new System.Windows.Forms.TabControl();
             this.tbpTablaGeneral = new System.Windows.Forms.TabPage();
+            this.btnProyectado = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.lblPaginaActual = new System.Windows.Forms.Label();
             this.btnPrimera = new System.Windows.Forms.Button();
@@ -144,6 +145,7 @@
             // 
             // tbcPagos
             // 
+            this.tbcPagos.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
             this.tbcPagos.Controls.Add(this.tbpTablaGeneral);
             this.tbcPagos.Controls.Add(this.tabRubrosPorSucursal);
             this.tbcPagos.Controls.Add(this.tbpTotalesPorRubro);
@@ -156,7 +158,7 @@
             this.tbcPagos.Multiline = true;
             this.tbcPagos.Name = "tbcPagos";
             this.tbcPagos.SelectedIndex = 0;
-            this.tbcPagos.Size = new System.Drawing.Size(1122, 483);
+            this.tbcPagos.Size = new System.Drawing.Size(1258, 483);
             this.tbcPagos.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tbcPagos.TabIndex = 0;
             this.tbcPagos.SelectedIndexChanged += new System.EventHandler(this.tbcPagos_SelectedIndexChanged);
@@ -164,6 +166,7 @@
             // tbpTablaGeneral
             // 
             this.tbpTablaGeneral.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.tbpTablaGeneral.Controls.Add(this.btnProyectado);
             this.tbpTablaGeneral.Controls.Add(this.groupBox3);
             this.tbpTablaGeneral.Controls.Add(this.pcbSalir);
             this.tbpTablaGeneral.Controls.Add(this.pcbUsuarios);
@@ -179,9 +182,25 @@
             this.tbpTablaGeneral.Location = new System.Drawing.Point(4, 34);
             this.tbpTablaGeneral.Name = "tbpTablaGeneral";
             this.tbpTablaGeneral.Padding = new System.Windows.Forms.Padding(3);
-            this.tbpTablaGeneral.Size = new System.Drawing.Size(1114, 445);
+            this.tbpTablaGeneral.Size = new System.Drawing.Size(1250, 445);
             this.tbpTablaGeneral.TabIndex = 0;
             this.tbpTablaGeneral.Text = "TABLA GENERAL";
+            // 
+            // btnProyectado
+            // 
+            this.btnProyectado.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnProyectado.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btnProyectado.FlatAppearance.BorderSize = 0;
+            this.btnProyectado.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnProyectado.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.btnProyectado.Location = new System.Drawing.Point(1111, 259);
+            this.btnProyectado.Name = "btnProyectado";
+            this.btnProyectado.Size = new System.Drawing.Size(131, 46);
+            this.btnProyectado.TabIndex = 16;
+            this.btnProyectado.Text = "PROYECTADO >>>";
+            this.btnProyectado.UseVisualStyleBackColor = false;
+            this.btnProyectado.Click += new System.EventHandler(this.btnProyectado_Click);
             // 
             // groupBox3
             // 
@@ -194,6 +213,7 @@
             this.groupBox3.Controls.Add(this.btnAnterior);
             this.groupBox3.Location = new System.Drawing.Point(772, 251);
             this.groupBox3.MaximumSize = new System.Drawing.Size(333, 54);
+            this.groupBox3.MinimumSize = new System.Drawing.Size(333, 54);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(333, 54);
             this.groupBox3.TabIndex = 21;
@@ -326,7 +346,7 @@
             this.groupBox2.Controls.Add(this.lblTotalGeneral);
             this.groupBox2.Location = new System.Drawing.Point(771, 311);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(334, 126);
+            this.groupBox2.Size = new System.Drawing.Size(471, 126);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "SUBTOTALES";
@@ -339,7 +359,7 @@
             this.ckbRetenciones.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ckbRetenciones.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ckbRetenciones.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.ckbRetenciones.Location = new System.Drawing.Point(182, 18);
+            this.ckbRetenciones.Location = new System.Drawing.Point(319, 18);
             this.ckbRetenciones.Name = "ckbRetenciones";
             this.ckbRetenciones.Size = new System.Drawing.Size(146, 22);
             this.ckbRetenciones.TabIndex = 0;
@@ -417,6 +437,7 @@
             this.groupBox1.Controls.Add(this.cmbRubros);
             this.groupBox1.Location = new System.Drawing.Point(8, 251);
             this.groupBox1.MaximumSize = new System.Drawing.Size(758, 186);
+            this.groupBox1.MinimumSize = new System.Drawing.Size(758, 186);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(758, 186);
             this.groupBox1.TabIndex = 1;
@@ -624,7 +645,7 @@
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dgvPagos.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvPagos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvPagos.Size = new System.Drawing.Size(1072, 245);
+            this.dgvPagos.Size = new System.Drawing.Size(1208, 245);
             this.dgvPagos.TabIndex = 0;
             this.dgvPagos.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvPagos_ColumnHeaderMouseClick);
             // 
@@ -634,7 +655,7 @@
             this.Column1.Name = "Column1";
             this.Column1.ReadOnly = true;
             this.Column1.Visible = false;
-            this.Column1.Width = 53;
+            this.Column1.Width = 34;
             // 
             // Column2
             // 
@@ -749,7 +770,7 @@
             this.tabRubrosPorSucursal.Controls.Add(this.dgvPagosRubrosPorSucursal);
             this.tabRubrosPorSucursal.Location = new System.Drawing.Point(4, 34);
             this.tabRubrosPorSucursal.Name = "tabRubrosPorSucursal";
-            this.tabRubrosPorSucursal.Size = new System.Drawing.Size(1114, 445);
+            this.tabRubrosPorSucursal.Size = new System.Drawing.Size(1250, 445);
             this.tabRubrosPorSucursal.TabIndex = 3;
             this.tabRubrosPorSucursal.Text = "RUBROS POR SUCURSAL";
             // 
@@ -889,7 +910,7 @@
             dataGridViewCellStyle7.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dgvPagosRubrosPorSucursal.RowsDefaultCellStyle = dataGridViewCellStyle7;
             this.dgvPagosRubrosPorSucursal.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvPagosRubrosPorSucursal.Size = new System.Drawing.Size(1114, 405);
+            this.dgvPagosRubrosPorSucursal.Size = new System.Drawing.Size(1250, 405);
             this.dgvPagosRubrosPorSucursal.TabIndex = 38;
             this.dgvPagosRubrosPorSucursal.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPagosRubrosPorSucursal_CellClick);
             this.dgvPagosRubrosPorSucursal.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPagosRubrosPorSucursal_CellContentClick);
@@ -905,7 +926,7 @@
             this.tbpTotalesPorRubro.Controls.Add(this.dgvPagosPorRubro);
             this.tbpTotalesPorRubro.Location = new System.Drawing.Point(4, 34);
             this.tbpTotalesPorRubro.Name = "tbpTotalesPorRubro";
-            this.tbpTotalesPorRubro.Size = new System.Drawing.Size(1114, 445);
+            this.tbpTotalesPorRubro.Size = new System.Drawing.Size(1250, 445);
             this.tbpTotalesPorRubro.TabIndex = 2;
             this.tbpTotalesPorRubro.Text = "TOTALES POR RUBRO";
             // 
@@ -926,13 +947,13 @@
             // 
             // cmbSucursalEnRubros
             // 
-            this.cmbSucursalEnRubros.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbSucursalEnRubros.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cmbSucursalEnRubros.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.cmbSucursalEnRubros.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbSucursalEnRubros.BackColor = System.Drawing.SystemColors.Window;
             this.cmbSucursalEnRubros.ForeColor = System.Drawing.SystemColors.WindowText;
             this.cmbSucursalEnRubros.FormattingEnabled = true;
-            this.cmbSucursalEnRubros.Location = new System.Drawing.Point(796, 411);
+            this.cmbSucursalEnRubros.Location = new System.Drawing.Point(670, 411);
             this.cmbSucursalEnRubros.Name = "cmbSucursalEnRubros";
             this.cmbSucursalEnRubros.Size = new System.Drawing.Size(310, 26);
             this.cmbSucursalEnRubros.TabIndex = 37;
@@ -1024,7 +1045,7 @@
             dataGridViewCellStyle11.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dgvPagosPorRubro.RowsDefaultCellStyle = dataGridViewCellStyle11;
             this.dgvPagosPorRubro.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvPagosPorRubro.Size = new System.Drawing.Size(1114, 405);
+            this.dgvPagosPorRubro.Size = new System.Drawing.Size(1250, 405);
             this.dgvPagosPorRubro.TabIndex = 32;
             this.dgvPagosPorRubro.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPagosPorRubro_CellClick);
             this.dgvPagosPorRubro.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPagosPorRubro_CellContentClick);
@@ -1041,7 +1062,7 @@
             this.tbpTotalesPorSucursal.Location = new System.Drawing.Point(4, 34);
             this.tbpTotalesPorSucursal.Name = "tbpTotalesPorSucursal";
             this.tbpTotalesPorSucursal.Padding = new System.Windows.Forms.Padding(3);
-            this.tbpTotalesPorSucursal.Size = new System.Drawing.Size(1114, 445);
+            this.tbpTotalesPorSucursal.Size = new System.Drawing.Size(1250, 445);
             this.tbpTotalesPorSucursal.TabIndex = 1;
             this.tbpTotalesPorSucursal.Text = "TOTALES POR SUCURSAL";
             // 
@@ -1145,7 +1166,7 @@
             dataGridViewCellStyle15.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dgvPagosPorSucursal.RowsDefaultCellStyle = dataGridViewCellStyle15;
             this.dgvPagosPorSucursal.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvPagosPorSucursal.Size = new System.Drawing.Size(1114, 405);
+            this.dgvPagosPorSucursal.Size = new System.Drawing.Size(1250, 405);
             this.dgvPagosPorSucursal.TabIndex = 2;
             this.dgvPagosPorSucursal.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPagosPorSucursal_CellClick);
             this.dgvPagosPorSucursal.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPagosPorSucursal_CellContentClick);
@@ -1157,15 +1178,15 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ClientSize = new System.Drawing.Size(1122, 483);
+            this.ClientSize = new System.Drawing.Size(1258, 483);
             this.Controls.Add(this.tbcPagos);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(1130, 508);
+            this.MinimumSize = new System.Drawing.Size(1266, 510);
             this.Name = "FormTablas";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Sistema de Pagos - SIDOM S.A.";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormTablas_FormClosed);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormTablas_FormClosing);
             this.Load += new System.EventHandler(this.FormTablas_Load);
             this.tbcPagos.ResumeLayout(false);
             this.tbpTablaGeneral.ResumeLayout(false);
@@ -1275,6 +1296,7 @@
         private System.Windows.Forms.Label lblPeriodoRpS;
         private System.Windows.Forms.ComboBox cmbAnoPrestacionalRpS;
         private System.Windows.Forms.ComboBox cmbMesPrestacionalRpS;
+        private System.Windows.Forms.Button btnProyectado;
     }
 }
 
